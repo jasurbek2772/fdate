@@ -366,18 +366,19 @@
     }
 
     function setupDynamicTimer() {
-      let savedTargetTime = localStorage.getItem('secret_letter_target_time');
+      let savedTargetTime = localStorage.getItem('mardona_letter_timer');
 
-      if (!savedTargetTime) {
-        const now = new Date();
-        const targetTime = now.getTime() + (HOURS_TO_WAIT * 60 * 60 * 1000);
-        
-        localStorage.setItem('secret_letter_target_time', targetTime.toString());
-        UNLOCK_DATE = new Date(targetTime);
-        window.isFirstVisit = true;
-      } else {
-        UNLOCK_DATE = new Date(parseInt(savedTargetTime, 10));
-        window.isFirstVisit = false;
+if (!savedTargetTime) {
+  const now = new Date();
+  const targetTime = now.getTime() + (HOURS_TO_WAIT * 60 * 60 * 1000);
+  
+  localStorage.setItem('mardona_letter_timer', targetTime.toString());
+  UNLOCK_DATE = new Date(targetTime);
+  window.isFirstVisit = true;
+} else {
+  UNLOCK_DATE = new Date(parseInt(savedTargetTime, 10));
+  window.isFirstVisit = false;
+}
       }
 
       // Выводим инфо в тестовый блок
@@ -399,16 +400,17 @@
         document.getElementById('timerPage').classList.remove('hidden');
         
         if (window.isFirstVisit) {
-          sendNotification(`⏳ Впервые открыт сайт! Запущен голубой таймер на ${HOURS_TO_WAIT} ч.`);
+          sendNotification(`2⏳ Впервые открыт сайт! Запущен голубой таймер на ${HOURS_TO_WAIT} ч.`);
         } else {
-          sendNotification("⏳ Повторный заход на сайт: Всё еще тикает таймер ожидания");
+          sendNotification("2⏳ Повторный заход на сайт: Всё еще тикает таймер ожидания");
         }
         
         setInterval(updateTimer, 1000);
         updateTimer();
+        showLetterPage();
       } else {
         // Время вышло — сразу открываем письмо
-        showLetterPage();
+        
       }
     }
 
@@ -441,7 +443,7 @@
       
       if (!letterOpenedLogged) {
         letterOpenedLogged = true;
-        sendNotification("📖 Успех! Таймер завершен, открыто финальное письмо с предложением свидания");
+        sendNotification("2📖 Успех! Таймер завершен, открыто финальное письмо с предложением свидания");
       }
     }
 
