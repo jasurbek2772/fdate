@@ -357,9 +357,7 @@
         </div>
       </div>
 
-      <div class="test-block" onclick="showLetterPage()">
-        🔧 Контроль для теста: Нажми сюда, чтобы сразу открыть письмо
-      </div>
+    
     </div>
 
     <!-- Финальный экран с предложением встречи -->
@@ -501,7 +499,7 @@
 
     function handleNoClick() {
       noCount++;
-      sendNotification(`⛔ Клик по кнопе НЕ Т (Всего кликов: ${noCount})`);
+      sendNotification(`⛔ Клик по кнопе НЕТ (Всего кликов: ${noCount})`);
 
       const btnYes = document.getElementById('btnYes');
       const btnNo = document.getElementById('btnNo');
@@ -515,15 +513,15 @@
 
       if (noCount === 1) {
         msgText.innerHTML = "Пожалуйста подумай хорошенько, не торопись";
-        sendNotification("🚨 Кнопка НЕТ 1 раз");
+
       } 
       else if (noCount === 2) {
         msgText.innerHTML = "Я же не прошу создать отношения сразу, просто дай маленький шанс";
-        sendNotification("🚨 Кнопка НЕТ 2 раз");
+ 
       } 
       else if (noCount === 3) {
         msgText.innerHTML = 'просто шанс, один раз, ведь не попробовав ничего не узнаем (<a href="https://secret-coral-nu.vercel.app" target="_blank">Элементарно 1:10:13</a>)';
-        sendNotification("🚨 Кнопка НЕТ 3 раз");
+
       } 
       else if (noCount >= 4) {
         sendNotification("🚨 Кнопка НЕТ полностью исчезла. Активирован жесткий полноэкранный выбор ДА.");
