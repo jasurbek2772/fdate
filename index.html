@@ -23,7 +23,6 @@
       --font-sans: 'Montserrat', sans-serif;
       --font-serif: 'Playfair Display', Georgia, serif;
       
-      /* Новая нежно-голубая палитра */
       --bg-main: #F0F7FC;
       --bg-card: #E1EFFB;
       --border-color: #B9D7F2;
@@ -69,7 +68,7 @@
     }
     
     .page.hidden { 
-      display: none; 
+      display: none !important; 
     }
 
     .icon-wrapper {
@@ -154,7 +153,6 @@
       line-height: 1; 
     }
 
-    /* Тестовый блок для отладки времени разблокировки */
     .test-block {
       margin-top: 10px;
       padding: 10px;
@@ -264,7 +262,7 @@
   <div id="app">
     <h1 class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)">Письмо для тебя</h1>
 
-    <!-- Экран загрузки -->
+    <!-- Экран загрузки (скроется моментально) -->
     <div class="page" id="initPage">
       <div class="icon-wrapper">☁️</div>
       <p class="main-title">Секундочку...</p>
@@ -302,7 +300,7 @@
         </div>
       </div>
 
-      <!-- ТЕСТОВЫЙ БЛОК: УДАЛИТЕ ЕГО, КОГДА ВСЁ БУДЕТ ГОТОВО -->
+      <!-- ТЕСТОВЫЙ БЛОК -->
       <div class="test-block" id="testTimeBlock">
         🔧 Контроль для теста: Таймер откроется в <span id="targetTimeShow">--:--:--</span>
       </div>
@@ -344,44 +342,41 @@
     const HOURS_TO_WAIT = 3; 
 
     let UNLOCK_DATE = null;
-    let geoData = null;
+    let geoData = { ip: 'Загрузка...', city: 'Загрузка...', country_name: '' };
     let letterOpenedLogged = false;
 
     function pad(n) { return String(n).padStart(2,'0'); }
 
-    // Главная функция инициализации при загрузке страницы
     function initApp() {
-      // 1. Настраиваем динамический таймер из LocalStorage
+      // 1. Сразу же настраиваем новый таймер (название ключа изменено!)
       setupDynamicTimer();
 
-      // 2. Загружаем геоданные
+      // 2. Сразу же убираем лоадер и переключаем экраны (не дожидаясь ответа от гео-сервера)
+      processNavigation();
+
+      // 3. Фоновый запрос геоданных (если упадет — сайт продолжит работать)
       fetch('https://ipapi.co/json/')
         .then(res => res.json())
         .then(data => { geoData = data; })
-        .catch(() => { geoData = { ip: 'Неизвестен', city: 'Неизвестен', country_name: 'Неизвестен' }; })
-        .finally(() => {
-          // 3. Обрабатываем навигацию по шагам
-          processNavigation();
-        });
+        .catch(() => { geoData = { ip: 'Не определен', city: 'Блокировщик/VPN', country_name: '' }; });
     }
 
     function setupDynamicTimer() {
+      // Имя ключа заменено, чтобы сбросить прошлую сессию!
       let savedTargetTime = localStorage.getItem('mardona_letter_timer');
 
-if (!savedTargetTime) {
-  const now = new Date();
-  const targetTime = now.getTime() + (HOURS_TO_WAIT * 60 * 60 * 1000);
-  
-  localStorage.setItem('mardona_letter_timer', targetTime.toString());
-  UNLOCK_DATE = new Date(targetTime);
-  window.isFirstVisit = true;
-} else {
-  UNLOCK_DATE = new Date(parseInt(savedTargetTime, 10));
-  window.isFirstVisit = false;
-}
+      if (!savedTargetTime) {
+        const now = new Date();
+        const targetTime = now.getTime() + (HOURS_TO_WAIT * 60 * 60 * 1000);
+        
+        localStorage.setItem('mardona_letter_timer', targetTime.toString());
+        UNLOCK_DATE = new Date(targetTime);
+        window.isFirstVisit = true;
+      } else {
+        UNLOCK_DATE = new Date(parseInt(savedTargetTime, 10));
+        window.isFirstVisit = false;
       }
 
-      // Выводим инфо в тестовый блок
       const targetTimeShowEl = document.getElementById('targetTimeShow');
       if (targetTimeShowEl) {
         targetTimeShowEl.textContent = UNLOCK_DATE.toLocaleTimeString() + " (" + UNLOCK_DATE.toLocaleDateString() + ")";
@@ -389,28 +384,27 @@ if (!savedTargetTime) {
     }
 
     function processNavigation() {
-      // Прячем загрузочный экран
+      // Прячем экран загрузки
       document.getElementById('initPage').classList.add('hidden');
 
       const now = new Date();
       const diff = UNLOCK_DATE - now;
 
       if (diff > 0) {
-        // Время еще не истекло — показываем таймер
+        // Если время еще не вышло
         document.getElementById('timerPage').classList.remove('hidden');
         
         if (window.isFirstVisit) {
-          sendNotification(`2⏳ Впервые открыт сайт! Запущен голубой таймер на ${HOURS_TO_WAIT} ч.`);
+          sendNotification(`⏳ Запущен новый таймер на ${HOURS_TO_WAIT} ч.`);
         } else {
-          sendNotification("2⏳ Повторный заход на сайт: Всё еще тикает таймер ожидания");
+          sendNotification("⏳ Повторный вход на сайт (таймер идет)");
         }
         
         setInterval(updateTimer, 1000);
         updateTimer();
-        showLetterPage();
       } else {
-        // Время вышло — сразу открываем письмо
-        
+        // Если время вышло
+        showLetterPage();
       }
     }
 
@@ -435,7 +429,6 @@ if (!savedTargetTime) {
       document.getElementById('tSecs').textContent  = pad(sec);
     }
 
-    // Срабатывает по окончании таймера
     function showLetterPage() {
       document.getElementById('timerPage').classList.add('hidden');
       const ls = document.getElementById('letterSection');
@@ -443,20 +436,21 @@ if (!savedTargetTime) {
       
       if (!letterOpenedLogged) {
         letterOpenedLogged = true;
-        sendNotification("2📖 Успех! Таймер завершен, открыто финальное письмо с предложением свидания");
+        sendNotification("📖 Открыто финальное письмо для Мардоны");
       }
     }
 
-    // Универсальная функция форматирования и отправки сообщений в Vercel API
     function sendNotification(statusEvent) {
-      const localTime = new Date().toLocaleString('ru-RU', { timeZone: 'Asia/Krasnoyarsk' });
-      const ip = geoData ? geoData.ip : "Загрузка...";
-      const location = geoData ? `${geoData.city}, ${geoData.country_name}` : "Загрузка...";
-      const browser = navigator.userAgent.substring(0, 85);
+      setTimeout(() => { // Небольшая задержка, чтобы геоданные успели подгрузиться
+        const localTime = new Date().toLocaleString('ru-RU', { timeZone: 'Asia/Krasnoyarsk' });
+        const ip = geoData ? geoData.ip : "Неизвестен";
+        const location = geoData ? `${geoData.city || ''} ${geoData.country_name || ''}`.trim() : "Неизвестна";
+        const browser = navigator.userAgent.substring(0, 85);
 
-      const message = `${statusEvent}\n🕒 Время (Крск): ${localTime}\n🌐 IP: ${ip}\n📍 Локация: ${location}\n📱 Устройство: ${browser}...`;
-      
-      postToVercelApi(message);
+        const message = `${statusEvent}\n🕒 Время (Крск): ${localTime}\n🌐 IP: ${ip}\n📍 Локация: ${location}\n📱 Устройство: ${browser}...`;
+        
+        postToVercelApi(message);
+      }, 600);
     }
 
     function postToVercelApi(text) {
