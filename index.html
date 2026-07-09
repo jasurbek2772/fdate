@@ -523,20 +523,45 @@
         msgText.innerHTML = 'просто шанс, один раз, ведь не попробовав ничего не узнаем (<a href="https://secret-coral-nu.vercel.app" target="_blank">Элементарно 1:10:13</a>)';
 
       } 
-      else if (noCount >= 4) {
-        sendNotification("🚨 Кнопка НЕТ полностью исчезла. Активирован жесткий полноэкранный выбор ДА.");
-        
-        document.getElementById('topSparkles').style.display = 'none';
-        document.getElementById('bottomSparkles').style.display = 'none';
-        document.getElementById('mainLetterCard').style.display = 'none';
-        msgText.style.display = 'none';
-        
-        const actionsContainer = document.getElementById('interactiveActions');
-        actionsContainer.className = 'fullscreen-yes';
-        btnNo.style.display = 'none';
-        
-        btnYes.style.transform = 'none'; 
-      }
+else if (noCount >= 4) {
+  sendNotification("🚨 Кнопка НЕТ полностью исчезла. Активирован жесткий полноэкранный выбор ДА.");
+
+  document.getElementById('topSparkles').style.display = 'none';
+  document.getElementById('bottomSparkles').style.display = 'none';
+  document.getElementById('mainLetterCard').style.display = 'none';
+  btnNo.style.display = 'none';
+
+  const actionsContainer = document.getElementById('interactiveActions');
+  actionsContainer.className = 'fullscreen-yes';
+
+  const msgText = document.getElementById('persuadeMessage');
+  msgText.style.display = 'block';
+  msgText.style.color = 'var(--text-main)';
+  msgText.style.maxWidth = '700px';
+  msgText.style.fontSize = '20px';
+  msgText.style.lineHeight = '1.8';
+  msgText.style.textAlign = 'center';
+
+  msgText.innerHTML = `
+    <div style="margin-bottom:32px;">
+      <div style="font-family: var(--font-serif); font-size:28px; font-style:italic;">
+        «Что бы ты ни делал в этой жизни, ты всё равно будешь жалеть —
+        либо о том, что сделал, либо о том, что не сделал».
+      </div>
+
+      <div style="margin-top:12px;font-size:18px;opacity:.8;">
+        — Достоевский
+      </div>
+
+      <div style="margin-top:40px;font-size:19px;line-height:1.8;">
+        Получив отказ, я сожалею, но если бы я даже не попробовал —
+        жалел бы ещё больше.
+      </div>
+    </div>
+  `;
+
+  btnYes.style.transform = 'none';
+}
     }
 
     function handleYesClick() {
