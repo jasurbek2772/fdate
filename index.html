@@ -534,27 +534,46 @@ else if (noCount >= 4) {
   const actionsContainer = document.getElementById('interactiveActions');
   actionsContainer.className = 'fullscreen-yes';
 
+  // Сбрасываем дефолтные стили контейнера кнопок для корректного позиционирования на мобилках
+  const buttonsWrapper = document.getElementById('buttonsWrapper');
+  if (buttonsWrapper) {
+    buttonsWrapper.style.minHeight = 'auto';
+    buttonsWrapper.style.marginBottom = '20px';
+  }
+
   const msgText = document.getElementById('persuadeMessage');
   msgText.style.display = 'block';
-  msgText.style.color = 'var(--text-main)';
-  msgText.style.maxWidth = '700px';
-  msgText.style.fontSize = '20px';
-  msgText.style.lineHeight = '1.8';
-  msgText.style.textAlign = 'center';
+  msgText.style.maxWidth = '90%'; // Чтобы не упиралось в края экрана телефона
+  msgText.style.width = '450px';   // Максимальная ширина на десктопе
+  msgText.style.transform = 'none';
+
+  // Стилизуем msgText как полупрозрачную аккуратную карточку под кнопкой
+  msgText.style.background = 'rgba(225, 239, 251, 0.75)'; // Полупрозрачный ванильно-голубой под стиль сайта
+  msgText.style.backdropFilter = 'blur(8px)';             // Эффект матового стекла
+  msgText.style.webkitBackdropFilter = 'blur(8px)';       // Поддержка Safari / iOS
+  msgText.style.border = '1px solid rgba(185, 215, 242, 0.5)';
+  msgText.style.borderRadius = '16px';
+  msgText.style.padding = '20px 16px';
+  msgText.style.boxShadow = '0 8px 32px rgba(30, 58, 95, 0.05)';
+  
+  // Адаптивная верстка под мобильные экраны
+  msgText.style.maxHeight = '45vh'; // Занимает максимум 45% высоты экрана, чтобы не перекрыть кнопку
+  msgText.style.overflowY = 'auto'; // Если текст не влезает на старых iPhone, он будет аккуратно скроллиться внутри
 
   msgText.innerHTML = `
-    <div style="margin-bottom:32px;">
-      <div style="font-family: var(--font-serif); font-size:28px; font-style:italic;">
-        «Что бы ты ни делал в этой жизни, ты всё равно будешь жалеть —
-        либо о том, что сделал, либо о том, что не сделал».
+    <div style="display: flex; flex-direction: column; gap: 16px; color: var(--text-main); text-align: center;">
+      <div>
+        <div style="font-family: var(--font-serif); font-size: 20px; font-style: italic; line-height: 1.5;">
+          «Что бы ты ни делал в этой жизни, ты всё равно будешь жалеть —
+          либо о том, что сделал, либо о том, что не сделал».
+        </div>
+        <div style="margin-top: 6px; font-size: 14px; opacity: 0.7; font-weight: 500;">
+          — Достоевский
+        </div>
       </div>
 
-      <div style="margin-top:12px;font-size:18px;opacity:.8;">
-        — Достоевский
-      </div>
-
-      <div style="margin-top:40px;font-size:19px;line-height:1.8;">
-        Получив отказ, я сожалею, но если бы я даже не попробовал —
+      <div style="border-top: 1px dashed rgba(185, 215, 242, 0.8); padding-top: 14px; font-size: 15px; line-height: 1.6; font-weight: 500;">
+        Получив отказ, я сожалею, но если бы я даже не попробовал — 
         жалел бы ещё больше.
       </div>
     </div>
