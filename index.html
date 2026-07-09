@@ -30,6 +30,7 @@
       --text-muted: #3A6073;
       --accent-color: #4A90E2;
       --accent-hover: #2979D3;
+      --danger-color: #E24A4A;
     }
 
     * { 
@@ -45,6 +46,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      overflow-x: hidden;
     }
 
     #app {
@@ -61,7 +63,7 @@
       display: flex; 
       flex-direction: column; 
       align-items: center; 
-      gap: 1.5rem; 
+      gap: 1.2rem; 
       width: 100%; 
       max-width: 500px; 
       animation: fadeUp 0.5s ease forwards;
@@ -84,37 +86,31 @@
     }
 
     .main-title {
-      font-size: 24px; 
-      font-weight: 500; 
+      font-size: 22px; 
+      font-weight: 600; 
       color: var(--text-main); 
       text-align: center; 
       line-height: 1.4;
     }
     
     .main-sub {
-      font-size: 15px; 
+      font-size: 14px; 
       color: var(--text-muted); 
       text-align: center; 
       line-height: 1.6; 
       opacity: 0.9;
     }
 
-    .card {
-      background: var(--bg-card); 
-      border: 0.5px solid var(--border-color);
-      border-radius: 16px; 
-      padding: 1.5rem 1.75rem; 
+    .game-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      padding: 1.25rem;
       width: 100%;
-    }
-
-    .card-label {
-      font-size: 11px; 
-      color: var(--text-muted); 
-      letter-spacing: 0.1em; 
-      text-transform: uppercase;
-      text-align: center; 
-      margin-bottom: 1rem; 
-      opacity: 0.8;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
     }
 
     .timer-row {
@@ -122,73 +118,145 @@
       align-items: flex-start; 
       justify-content: center; 
       gap: 6px;
+      background: #ffffff;
+      padding: 8px 20px;
+      border-radius: 99px;
+      border: 1px solid var(--border-color);
     }
-    
-    .timer-unit { 
-      display: flex; 
-      flex-direction: column; 
-      align-items: center; 
-      gap: 4px; 
+    .timer-unit { display: flex; flex-direction: column; align-items: center; }
+    .timer-num { font-size: 22px; font-weight: 600; color: var(--text-main); font-variant-numeric: tabular-nums; line-height: 1; }
+    .timer-u-label { font-size: 9px; color: var(--text-muted); opacity: 0.8; }
+    .timer-sep { font-size: 18px; color: var(--accent-color); font-weight: 600; line-height: 1; }
+
+    .game-area {
+      width: 100%;
+      height: 300px;
+      background: #ffffff;
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      position: relative;
+      overflow: hidden;
     }
-    
-    .timer-num {
-      font-size: 32px; 
-      font-weight: 500; 
-      color: var(--text-main);
-      font-variant-numeric: tabular-nums; 
-      line-height: 1;
+
+    .click-item {
+      position: absolute;
+      font-size: 28px;
+      user-select: none;
+      cursor: pointer;
+      transition: transform 0.1s ease;
+      padding: 8px;
     }
-    
-    .timer-u-label { 
-      font-size: 11px; 
-      color: var(--text-muted); 
-      opacity: 0.7; 
-    }
-    
-    .timer-sep { 
-      font-size: 28px; 
-      color: var(--accent-color); 
-      font-weight: 500; 
-      padding-top: 2px; 
-      line-height: 1; 
+    .click-item:active { transform: scale(0.7); }
+
+    .rules-hint {
+      font-size: 12px;
+      text-align: center;
+      color: var(--text-muted);
+      line-height: 1.4;
     }
 
     .test-block {
-      margin-top: 10px;
-      padding: 10px;
+      margin-top: 5px;
+      padding: 8px;
       background: #ffffff;
       border: 1px dashed var(--accent-color);
       border-radius: 8px;
-      font-size: 12px;
+      font-size: 11px;
       color: #333;
       text-align: center;
       width: 100%;
+      cursor: pointer;
     }
 
-    .open-btn {
-      padding: 12px 32px; 
-      background: var(--accent-color); 
-      color: white;
-      border: none; 
-      border-radius: 99px; 
-      font-size: 16px; 
-      font-weight: 500;
-      cursor: pointer; 
-      font-family: var(--font-sans);
-      transition: background 0.2s, transform 0.1s;
-      display: flex; 
-      align-items: center; 
-      gap: 8px;
-      text-decoration: none;
+    .action-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+      width: 100%;
+      margin-top: 1.5rem;
+      transition: all 0.4s ease;
+    }
+
+    .buttons-row {
+      display: flex;
       justify-content: center;
+      align-items: center;
+      gap: 1.5rem;
+      width: 100%;
+      min-height: 120px;
     }
-    
-    .open-btn:hover { 
-      background: var(--accent-hover); 
+
+    .btn-choice {
+      font-family: var(--font-sans);
+      font-weight: 600;
+      border: none;
+      border-radius: 99px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      white-space: nowrap;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
     }
-    
-    .open-btn:active { 
-      transform: scale(0.97); 
+
+    .btn-yes {
+      background: var(--accent-color);
+      color: white;
+      padding: 12px 36px;
+      font-size: 16px;
+    }
+    .btn-yes:hover { background: var(--accent-hover); }
+
+    .btn-no {
+      background: #ffffff;
+      color: var(--danger-color);
+      border: 1px solid var(--border-color);
+      padding: 10px 28px;
+      font-size: 14px;
+    }
+    .btn-no:hover { background: #fff5f5; }
+
+    .persuade-text {
+      font-size: 14px;
+      color: var(--danger-color);
+      font-weight: 500;
+      text-align: center;
+      max-width: 90%;
+      line-height: 1.5;
+      min-height: 22px;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .persuade-text a {
+      color: var(--accent-color);
+      text-decoration: underline;
+      font-weight: 600;
+    }
+
+    .fullscreen-yes {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      background: var(--bg-main);
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 2rem;
+      animation: fadeIn 0.5s ease;
+    }
+    .fullscreen-yes .btn-yes {
+      font-size: 28px !important;
+      padding: 24px 64px !important;
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(74, 144, 226, 0.4); }
+      70% { transform: scale(1.05); box-shadow: 0 0 0 20px rgba(74, 144, 226, 0); }
+      100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(74, 144, 226, 0); }
     }
 
     .letter-section {
@@ -206,6 +274,10 @@
       to   { opacity: 1; transform: translateY(0); }
     }
 
+    @keyframes fadeIn {
+      from { opacity: 0; } to { opacity: 1; }
+    }
+
     .letter-card {
       background: var(--bg-card); 
       border: 0.5px solid var(--border-color);
@@ -214,6 +286,7 @@
       width: 100%; 
       position: relative;
       box-shadow: 0 2px 32px rgba(74, 144, 226, 0.1);
+      transition: opacity 0.5s ease;
     }
     
     .letter-quote { 
@@ -248,13 +321,7 @@
       font-family: var(--font-serif); 
     }
 
-    .sparkles { 
-      font-size: 20px; 
-      display: flex; 
-      gap: 12px; 
-      justify-content: center; 
-      color: var(--accent-color); 
-    }
+    .sparkles { font-size: 20px; display: flex; gap: 12px; justify-content: center; color: var(--accent-color); }
   </style>
 </head>
 <body>
@@ -262,205 +329,259 @@
   <div id="app">
     <h1 class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)">Письмо для тебя</h1>
 
-    <!-- Экран загрузки (скроется моментально) -->
+    <!-- Экран загрузки -->
     <div class="page" id="initPage">
       <div class="icon-wrapper">☁️</div>
       <p class="main-title">Секундочку...</p>
       <p class="main-sub">Настраиваем кое-что личное для тебя...</p>
     </div>
 
-    <!-- Экран с таймером -->
-    <div class="page hidden" id="timerPage">
-      <div class="icon-wrapper">⏳</div>
-      <p class="main-title">Всему своё время</p>
-      <p class="main-sub">Мы никуда не спешим, верно? Пожалуйста, подожди немного.</p>
+    <!-- Основной игровой экран с таймером -->
+    <div class="page hidden" id="gamePage">
+      <div class="icon-wrapper">✨</div>
+      <p class="main-title">Время покажет...</p>
+      <p class="main-sub">Письмо откроется само через час. Но ты можешь приблизить этот момент!</p>
 
-      <div class="card">
-        <p class="card-label">Осталось подождать</p>
+      <div class="game-card">
         <div class="timer-row">
-          <div class="timer-unit">
-            <span class="timer-num" id="tDays">00</span>
-            <span class="timer-u-label">дней</span>
-          </div>
+          <div class="timer-unit"><span class="timer-num" id="tMins">60</span><span class="timer-u-label">минут</span></div>
           <span class="timer-sep">:</span>
-          <div class="timer-unit">
-            <span class="timer-num" id="tHours">00</span>
-            <span class="timer-u-label">часов</span>
-          </div>
-          <span class="timer-sep">:</span>
-          <div class="timer-unit">
-            <span class="timer-num" id="tMins">00</span>
-            <span class="timer-u-label">минут</span>
-          </div>
-          <span class="timer-sep">:</span>
-          <div class="timer-unit">
-            <span class="timer-num" id="tSecs">00</span>
-            <span class="timer-u-label">секунд</span>
-          </div>
+          <div class="timer-unit"><span class="timer-num" id="tSecs">00</span><span class="timer-u-label">секунд</span></div>
+        </div>
+
+        <div class="game-area" id="gameArea"></div>
+
+        <div class="rules-hint">
+          Лови <strong>☁️ Облака</strong> и <strong>✨ Звёзды</strong>: они срезают по <strong>-4 мин</strong>.<br>
+          Остальные смайлики не трогай, они добавляют <strong>+2 мин</strong>!
         </div>
       </div>
 
-      <!-- ТЕСТОВЫЙ БЛОК -->
-      <div class="test-block" id="testTimeBlock">
-        🔧 Контроль для теста: Таймер откроется в <span id="targetTimeShow">--:--:--</span>
+      <div class="test-block" onclick="showLetterPage()">
+        🔧 Контроль для теста: Нажми сюда, чтобы сразу открыть письмо
       </div>
     </div>
 
     <!-- Финальный экран с предложением встречи -->
     <div class="letter-section" id="letterSection">
-      <div class="sparkles">✦ ✦ ✦</div>
-      <div class="letter-card">
+      <div class="sparkles" id="topSparkles">✦ ✦ ✦</div>
+      
+      <div class="letter-card" id="mainLetterCard">
         <span class="letter-quote" aria-hidden="true">"</span>
         
-        <div class="letter-text" id="letterText">
-Привет, Мардона.
-
-Я знаю, что ты сейчас полностью сосредоточена на учёбе, практике и впереди тебя ждут важные экзамены. Это абсолютно правильное решение, и я искренне уважаю твоё стремление. 
+        <div class="letter-text">
+Ассалому Алейкум, Мардона.
 
 Ты говорила, что не хочешь давать пустых надежд, ведь «никто не знает, что будет завтра». И ты абсолютно права — будущее туманно. Но именно поэтому мне бы очень хотелось предложить тебе один простой шанс. Не для серьёзных обещаний прямо сейчас, а ради обычного человеческого знакомства.
 
-Давай просто как-нибудь встретимся на 15–20 минут сразу после твоей учёбы или практики? Буквально на чашку чая или кофе. Без какого-либо давления, спешки или обязательств. Просто поговорим вживую, ведь одно реальное слово заменяет сотни сообщений в чате.
+Давай просто как-нибудь встретимся на 15–20 минут, если работаешь после работы, если нет то где то, решу потом. Буквально на чашку чая или кофе или просто на улице. Без какого-либо давления, спешки или обязательств. Просто поговорим вживую, ведь одно реальное слово заменяет сотни сообщений в чате.
 
-Как ты сама сказала в прошлый раз — время покажет. Позволь этому времени показать себя. Что думаешь? Напиши мне в ТГ, когда освободишься от экзаменов.
+Как ты сама согласилась в прошлый раз — "время покажет". Позволь этому времени показать себя. Что думаешь?
         </div>
         
-        <div class="letter-sign">
-          <a href="https://t.me/jasurbek27" target="_blank" style="color: var(--text-main); text-decoration: none; border-bottom: 1px dashed var(--accent-color);">Jasur</a>
-        </div>
+        <div class="letter-sign">Jasur</div>
       </div>
-      
-      <a href="https://t.me/jasurbek27" target="_blank" class="open-btn">
-        <i class="ti ti-brand-telegram" aria-hidden="true"></i>
-        Ответить в Telegram
-      </a>
-      <div class="sparkles">✦ ✦ ✦</div>
+
+      <!-- ИНТЕРАКТИВНЫЙ БЛОК КНОПОК -->
+      <div class="action-container" id="interactiveActions">
+        <div class="buttons-row" id="buttonsWrapper">
+          <button class="btn-choice btn-yes" id="btnYes" onclick="handleYesClick()">Да</button>
+          <button class="btn-choice btn-no" id="btnNo" onclick="handleNoClick()">Нет</button>
+        </div>
+        <div class="persuade-text" id="persuadeMessage"></div>
+      </div>
+
+      <div class="sparkles" id="bottomSparkles">✦ ✦ ✦</div>
     </div>
   </div>
 
   <script>
-    // НАСТРОЙКА ВРЕМЕНИ ТАЙМЕРА (в часах)
-    const HOURS_TO_WAIT = 3; 
-
+    const GAME_DURATION_MS = 60 * 60 * 1000; 
     let UNLOCK_DATE = null;
     let geoData = { ip: 'Загрузка...', city: 'Загрузка...', country_name: '' };
     let letterOpenedLogged = false;
+    
+    let gameElements = [];
+    const TARGET_ITEMS = ['☁️', '✨'];
+    const DECOY_ITEMS = ['📚', '☕', '📝'];
+    let timerInterval = null;
+
+    let noCount = 0;
+    let yesScale = 1.0;
+    let noScale = 1.0;
+    let doubleCheckStage = false; 
 
     function pad(n) { return String(n).padStart(2,'0'); }
 
     function initApp() {
-      // 1. Сразу же настраиваем новый таймер (название ключа изменено!)
-      setupDynamicTimer();
+      document.getElementById('initPage').classList.add('hidden');
+      document.getElementById('gamePage').classList.remove('hidden');
 
-      // 2. Сразу же убираем лоадер и переключаем экраны (не дожидаясь ответа от гео-сервера)
-      processNavigation();
+      const now = new Date();
+      UNLOCK_DATE = new Date(now.getTime() + GAME_DURATION_MS);
 
-      // 3. Фоновый запрос геоданных (если упадет — сайт продолжит работать)
+      timerInterval = setInterval(updateTimer, 1000);
+      updateTimer();
+
+      sendNotification("🎮 Мардона зашла на сайт. Включен кликер.");
+      setupGameEngine();
+
       fetch('https://ipapi.co/json/')
         .then(res => res.json())
         .then(data => { geoData = data; })
         .catch(() => { geoData = { ip: 'Не определен', city: 'Блокировщик/VPN', country_name: '' }; });
     }
 
-    function setupDynamicTimer() {
-      // Имя ключа заменено, чтобы сбросить прошлую сессию!
-      let savedTargetTime = localStorage.getItem('mardona_letter_timer');
-
-      if (!savedTargetTime) {
-        const now = new Date();
-        const targetTime = now.getTime() + (HOURS_TO_WAIT * 60 * 60 * 1000);
-        
-        localStorage.setItem('mardona_letter_timer', targetTime.toString());
-        UNLOCK_DATE = new Date(targetTime);
-        window.isFirstVisit = true;
-      } else {
-        UNLOCK_DATE = new Date(parseInt(savedTargetTime, 10));
-        window.isFirstVisit = false;
-      }
-
-      const targetTimeShowEl = document.getElementById('targetTimeShow');
-      if (targetTimeShowEl) {
-        targetTimeShowEl.textContent = UNLOCK_DATE.toLocaleTimeString() + " (" + UNLOCK_DATE.toLocaleDateString() + ")";
-      }
-    }
-
-    function processNavigation() {
-      // Прячем экран загрузки
-      document.getElementById('initPage').classList.add('hidden');
-
-      const now = new Date();
-      const diff = UNLOCK_DATE - now;
-
-      if (diff > 0) {
-        // Если время еще не вышло
-        document.getElementById('timerPage').classList.remove('hidden');
-        
-        if (window.isFirstVisit) {
-          sendNotification(`⏳ Запущен новый таймер на ${HOURS_TO_WAIT} ч.`);
-        } else {
-          sendNotification("⏳ Повторный вход на сайт (таймер идет)");
-        }
-        
-        setInterval(updateTimer, 1000);
-        updateTimer();
-      } else {
-        // Если время вышло
-        showLetterPage();
-      }
-    }
-
     function updateTimer() {
       const now = new Date();
       const diff = UNLOCK_DATE - now;
-      
-      if (diff <= 0) {
-        showLetterPage();
-        return;
-      }
-      
-      const s = Math.floor(diff / 1000);
-      const d = Math.floor(s / 86400);
-      const h = Math.floor((s % 86400) / 3600);
-      const m = Math.floor((s % 3600) / 60);
-      const sec = s % 60;
-      
-      document.getElementById('tDays').textContent  = pad(d);
-      document.getElementById('tHours').textContent = pad(h);
-      document.getElementById('tMins').textContent  = pad(m);
-      document.getElementById('tSecs').textContent  = pad(sec);
+      if (diff <= 0) { showLetterPage(); return; }
+      const totalSeconds = Math.floor(diff / 1000);
+      document.getElementById('tMins').textContent = pad(Math.floor(totalSeconds / 60));
+      document.getElementById('tSecs').textContent = pad(totalSeconds % 60);
+    }
+
+    function modifyTimer(minutesChange) {
+      UNLOCK_DATE = new Date(Math.min(UNLOCK_DATE.getTime() + (minutesChange * 60 * 1000), new Date().getTime() + GAME_DURATION_MS));
+      updateTimer();
+    }
+
+    function setupGameEngine() {
+      const gameArea = document.getElementById('gameArea');
+      for (let i = 0; i < 2; i++) { createItem(gameArea, true); }
+      for (let i = 0; i < 10; i++) { createItem(gameArea, false); }
+      setInterval(moveItems, 40);
+    }
+
+    function createItem(container, isTarget) {
+      const el = document.createElement('div');
+      el.className = 'click-item';
+      el.textContent = isTarget ? TARGET_ITEMS[Math.floor(Math.random() * TARGET_ITEMS.length)] : DECOY_ITEMS[Math.floor(Math.random() * DECOY_ITEMS.length)];
+      const x = Math.random() * (container.clientWidth - 45);
+      const y = Math.random() * (container.clientHeight - 45);
+      let vx = (Math.random() - 0.5) * 4; let vy = (Math.random() - 0.5) * 4;
+      if (Math.abs(vx) < 1) vx = vx < 0 ? -1.5 : 1.5; if (Math.abs(vy) < 1) vy = vy < 0 ? -1.5 : 1.5;
+      el.style.left = x + 'px'; el.style.top = y + 'px'; container.appendChild(el);
+      const itemObj = { element: el, isTarget: isTarget, x: x, y: y, vx: vx, vy: vy, bounceCount: 0 };
+      el.addEventListener('click', (e) => { e.stopPropagation(); onItemClicked(itemObj, container); });
+      gameElements.push(itemObj);
+    }
+
+    function moveItems() {
+      const container = document.getElementById('gameArea'); if (!container) return;
+      const maxX = container.clientWidth - 45; const maxY = container.clientHeight - 45;
+      let targetsToReplace = 0;
+      gameElements.forEach(item => {
+        item.x += item.vx; item.y += item.vy; let hitEdge = false;
+        if (item.x <= 0 || item.x >= maxX) { item.vx *= -1; item.x = item.x <= 0 ? 0 : maxX; hitEdge = true; }
+        if (item.y <= 0 || item.y >= maxY) { item.vy *= -1; item.y = item.y <= 0 ? 0 : maxY; hitEdge = true; }
+        if (hitEdge && item.isTarget) { item.bounceCount++; if (item.bounceCount >= 3) { item.markedForDeath = true; targetsToReplace++; } }
+        item.element.style.left = item.x + 'px'; item.element.style.top = item.y + 'px';
+      });
+      gameElements = gameElements.filter(item => { if (item.markedForDeath) { if (container.contains(item.element)) container.removeChild(item.element); return false; } return true; });
+      for (let i = 0; i < targetsToReplace; i++) { createItem(container, true); }
+    }
+
+    function onItemClicked(itemObj, container) {
+      itemObj.element.style.transform = 'scale(0)';
+      if (itemObj.isTarget) { modifyTimer(-4); } else { modifyTimer(2); }
+      setTimeout(() => {
+        if (container.contains(itemObj.element)) container.removeChild(itemObj.element);
+        gameElements = gameElements.filter(i => i !== itemObj);
+        createItem(container, itemObj.isTarget);
+      }, 100);
     }
 
     function showLetterPage() {
-      document.getElementById('timerPage').classList.add('hidden');
-      const ls = document.getElementById('letterSection');
-      ls.style.display = 'flex';
-      
-      if (!letterOpenedLogged) {
-        letterOpenedLogged = true;
-        sendNotification("📖 Открыто финальное письмо для Мардоны");
+      if (timerInterval) clearInterval(timerInterval);
+      document.getElementById('gamePage').classList.add('hidden');
+      document.getElementById('letterSection').style.display = 'flex';
+      if (!letterOpenedLogged) { letterOpenedLogged = true; sendNotification("📖 Таймер пройден, открылся текст письма."); }
+    }
+
+    function handleNoClick() {
+      noCount++;
+      sendNotification(`⛔ Клик по кнопе НЕ Т (Всего кликов: ${noCount})`);
+
+      const btnYes = document.getElementById('btnYes');
+      const btnNo = document.getElementById('btnNo');
+      const msgText = document.getElementById('persuadeMessage');
+
+      yesScale += 0.35;
+      noScale -= 0.18;
+
+      btnYes.style.transform = `scale(${yesScale})`;
+      btnNo.style.transform = `scale(${noScale})`;
+
+      if (noCount === 1) {
+        msgText.innerHTML = "Пожалуйста подумай хорошенько, не торопись";
+        sendNotification("🚨 Кнопка НЕТ 1 раз");
+      } 
+      else if (noCount === 2) {
+        msgText.innerHTML = "Я же не прошу создать отношения сразу, просто дай маленький шанс";
+        sendNotification("🚨 Кнопка НЕТ 2 раз");
+      } 
+      else if (noCount === 3) {
+        msgText.innerHTML = 'просто шанс, один раз, ведь не попробовав ничего не узнаем (<a href="https://secret-coral-nu.vercel.app" target="_blank">Элементарно 1:10:13</a>)';
+        sendNotification("🚨 Кнопка НЕТ 3 раз");
+      } 
+      else if (noCount >= 4) {
+        sendNotification("🚨 Кнопка НЕТ полностью исчезла. Активирован жесткий полноэкранный выбор ДА.");
+        
+        document.getElementById('topSparkles').style.display = 'none';
+        document.getElementById('bottomSparkles').style.display = 'none';
+        document.getElementById('mainLetterCard').style.display = 'none';
+        msgText.style.display = 'none';
+        
+        const actionsContainer = document.getElementById('interactiveActions');
+        actionsContainer.className = 'fullscreen-yes';
+        btnNo.style.display = 'none';
+        
+        btnYes.style.transform = 'none'; 
+      }
+    }
+
+    function handleYesClick() {
+      const msgText = document.getElementById('persuadeMessage');
+      const btnYes = document.getElementById('btnYes');
+      const btnNo = document.getElementById('btnNo');
+
+      if (!doubleCheckStage) {
+        doubleCheckStage = true;
+        sendNotification(`❤️ Нажата кнопка ДА (Первый раз, стадия проверки "Реально?")`);
+
+        msgText.style.display = 'block';
+        msgText.style.color = 'var(--text-main)';
+        msgText.innerHTML = "<span style='font-size: 20px; font-weight:600;'>Реально? 🥺</span>";
+
+        btnYes.innerHTML = "Точно-точно? Жми сюда! ✨";
+        if (btnNo) btnNo.style.display = 'none';
+
+        const actionsContainer = document.getElementById('interactiveActions');
+        if (actionsContainer.classList.contains('fullscreen-yes')) {
+          btnYes.style.fontSize = '20px';
+          btnYes.style.padding = '14px 40px';
+        }
+      } else {
+        sendNotification("🎉 ОКОНЧАТЕЛЬНОЕ ПОДТВЕРЖДЕНИЕ! Мардона нажала на ДА второй раз.");
+        
+        // Меняем интерфейс на финальную надпись вместо перехода по ссылке
+        msgText.innerHTML = "<span style='font-size: 18px; color: #27AE60; font-weight:600;'>Спасибо за шанс! Я напишу тебе сам. ✨</span>";
+        btnYes.style.display = 'none';
       }
     }
 
     function sendNotification(statusEvent) {
-      setTimeout(() => { // Небольшая задержка, чтобы геоданные успели подгрузиться
+      setTimeout(() => {
         const localTime = new Date().toLocaleString('ru-RU', { timeZone: 'Asia/Krasnoyarsk' });
-        const ip = geoData ? geoData.ip : "Неизвестен";
-        const location = geoData ? `${geoData.city || ''} ${geoData.country_name || ''}`.trim() : "Неизвестна";
-        const browser = navigator.userAgent.substring(0, 85);
-
-        const message = `${statusEvent}\n🕒 Время (Крск): ${localTime}\n🌐 IP: ${ip}\n📍 Локация: ${location}\n📱 Устройство: ${browser}...`;
+        const message = `${statusEvent}\n🕒 Время (Крск): ${localTime}\n🌐 IP: ${geoData.ip}\n📍 Локация: ${geoData.city || ''} ${geoData.country_name || ''}`;
         
-        postToVercelApi(message);
-      }, 600);
-    }
-
-    function postToVercelApi(text) {
-      fetch('/api/send', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ text: text })
-      })
-      .then(res => res.json())
-      .catch(err => console.error('Ошибка логирования:', err));
+        fetch('/api/send', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ text: message })
+        }).catch(err => console.error(err));
+      }, 200);
     }
 
     window.addEventListener('DOMContentLoaded', initApp);
