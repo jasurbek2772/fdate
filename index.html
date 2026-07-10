@@ -155,19 +155,6 @@
       line-height: 1.4;
     }
 
-    .test-block {
-      margin-top: 5px;
-      padding: 8px;
-      background: #ffffff;
-      border: 1px dashed var(--accent-color);
-      border-radius: 8px;
-      font-size: 11px;
-      color: #333;
-      text-align: center;
-      width: 100%;
-      cursor: pointer;
-    }
-
     .action-container {
       display: flex;
       flex-direction: column;
@@ -175,88 +162,73 @@
       gap: 1rem;
       width: 100%;
       margin-top: 1.5rem;
-      transition: all 0.4s ease;
     }
 
-    .buttons-row {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 1.5rem;
-      width: 100%;
-      min-height: 120px;
-    }
-
-    .btn-choice {
-      font-family: var(--font-sans);
-      font-weight: 600;
-      border: none;
-      border-radius: 99px;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      white-space: nowrap;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-    }
-
-    .btn-yes {
-      background: var(--accent-color);
-      color: white;
-      padding: 12px 36px;
-      font-size: 16px;
-    }
-    .btn-yes:hover { background: var(--accent-hover); }
-
-    .btn-no {
-      background: #ffffff;
-      color: var(--danger-color);
+    /* Стили новой формы вместо кнопок Да/Нет */
+    .invitation-form {
+      background: var(--bg-card);
       border: 1px solid var(--border-color);
-      padding: 10px 28px;
-      font-size: 14px;
-    }
-    .btn-no:hover { background: #fff5f5; }
-
-    .persuade-text {
-      font-size: 14px;
-      color: var(--danger-color);
-      font-weight: 500;
-      text-align: center;
-      max-width: 90%;
-      line-height: 1.5;
-      min-height: 22px;
-      animation: fadeIn 0.3s ease;
-    }
-
-    .persuade-text a {
-      color: var(--accent-color);
-      text-decoration: underline;
-      font-weight: 600;
-    }
-
-    .fullscreen-yes {
-      position: fixed;
-      top: 0; left: 0; width: 100vw; height: 100vh;
-      background: var(--bg-main);
-      z-index: 9999;
+      border-radius: 20px;
+      padding: 1.5rem;
+      width: 100%;
       display: flex;
       flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      gap: 2rem;
-      animation: fadeIn 0.5s ease;
-    }
-    .fullscreen-yes .btn-yes {
-      font-size: 28px !important;
-      padding: 24px 64px !important;
-      animation: pulse 1.5s infinite;
+      gap: 1.2rem;
+      box-shadow: 0 4px 20px rgba(74, 144, 226, 0.08);
     }
 
-    @keyframes pulse {
-      0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(74, 144, 226, 0.4); }
-      70% { transform: scale(1.05); box-shadow: 0 0 0 20px rgba(74, 144, 226, 0); }
-      100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(74, 144, 226, 0); }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .form-label {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 12px 16px;
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      font-family: var(--font-sans);
+      font-size: 14px;
+      color: var(--text-main);
+      background: #ffffff;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .form-input:focus {
+      border-color: var(--accent-color);
+    }
+
+    .btn-submit {
+      font-family: var(--font-sans);
+      font-weight: 600;
+      font-size: 15px;
+      background: var(--accent-color);
+      color: white;
+      border: none;
+      border-radius: 99px;
+      padding: 14px;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+      box-shadow: 0 4px 12px rgba(74, 144, 226, 0.2);
+      width: 100%;
+      margin-top: 0.5rem;
+    }
+    .btn-submit:hover { background: var(--accent-hover); }
+    .btn-submit:active { transform: scale(0.98); }
+
+    .status-message {
+      font-size: 14px;
+      text-align: center;
+      font-weight: 500;
+      line-height: 1.5;
+      display: none;
     }
 
     .letter-section {
@@ -274,10 +246,6 @@
       to   { opacity: 1; transform: translateY(0); }
     }
 
-    @keyframes fadeIn {
-      from { opacity: 0; } to { opacity: 1; }
-    }
-
     .letter-card {
       background: var(--bg-card); 
       border: 0.5px solid var(--border-color);
@@ -286,7 +254,6 @@
       width: 100%; 
       position: relative;
       box-shadow: 0 2px 32px rgba(74, 144, 226, 0.1);
-      transition: opacity 0.5s ease;
     }
     
     .letter-quote { 
@@ -322,12 +289,21 @@
     }
 
     .sparkles { font-size: 20px; display: flex; gap: 12px; justify-content: center; color: var(--accent-color); }
+    
+    /* Скрытая кнопка для девелопера */
+    .test-trigger {
+      width: 100%;
+      height: 10px;
+      margin-top: -10px;
+      cursor: pointer;
+      background: transparent;
+    }
   </style>
 </head>
 <body>
 
   <div id="app">
-    <h1 class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)">Письмо для тебя</h1>
+    <h1 class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)">Приглашение для тебя</h1>
 
     <!-- Экран загрузки -->
     <div class="page" id="initPage">
@@ -340,7 +316,7 @@
     <div class="page hidden" id="gamePage">
       <div class="icon-wrapper">✨</div>
       <p class="main-title">Время покажет...</p>
-      <p class="main-sub">Письмо откроется само через час. Но ты можешь приблизить этот момент!</p>
+      <p class="main-sub">Приглашение откроется само через час. Но ты можешь приблизить этот момент!</p>
 
       <div class="game-card">
         <div class="timer-row">
@@ -356,8 +332,9 @@
           Остальные смайлики не трогай, они добавляют <strong>+2 мин</strong>!
         </div>
       </div>
-
-    
+      
+      <!-- Скрытая невидимая область для тестов (просто тапни в самый низ под карточкой) -->
+      <div class="test-trigger" onclick="showLetterPage()"></div>
     </div>
 
     <!-- Финальный экран с предложением встречи -->
@@ -380,13 +357,24 @@
         <div class="letter-sign">Jasur</div>
       </div>
 
-      <!-- ИНТЕРАКТИВНЫЙ БЛОК КНОПОК -->
+      <!-- ИНТЕРАКТИВНЫЙ БЛОК ФОРМЫ -->
       <div class="action-container" id="interactiveActions">
-        <div class="buttons-row" id="buttonsWrapper">
-          <button class="btn-choice btn-yes" id="btnYes" onclick="handleYesClick()">Да</button>
-          <button class="btn-choice btn-no" id="btnNo" onclick="handleNoClick()">Нет</button>
-        </div>
-        <div class="persuade-text" id="persuadeMessage"></div>
+        <form class="invitation-form" id="bookingForm" onsubmit="handleFormSubmit(event)">
+          
+          <div class="form-group">
+            <label class="form-label" for="datetimeInput">Когда тебе удобно? (Дата и время) 🕒</label>
+            <input type="datetime-local" class="form-input" id="datetimeInput" required onchange="logFieldChange('Выбрала Дату/Время')">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="addressInput">Где лучше встретиться? (Адрес или пожелание) 📍</label>
+            <input type="text" class="form-input" id="addressInput" placeholder="Например: Парк, кафе или после практики" required oninput="debounceLogAddress()">
+          </div>
+
+          <button type="submit" class="btn-submit" id="btnSubmit">Подтвердить и отправить ✨</button>
+        </form>
+        
+        <div class="status-message" id="statusMsg"></div>
       </div>
 
       <div class="sparkles" id="bottomSparkles">✦ ✦ ✦</div>
@@ -403,11 +391,7 @@
     const TARGET_ITEMS = ['☁️', '✨'];
     const DECOY_ITEMS = ['📚', '☕', '📝'];
     let timerInterval = null;
-
-    let noCount = 0;
-    let yesScale = 1.0;
-    let noScale = 1.0;
-    let doubleCheckStage = false; 
+    let addressTimeout = null;
 
     function pad(n) { return String(n).padStart(2,'0'); }
 
@@ -494,129 +478,49 @@
       if (timerInterval) clearInterval(timerInterval);
       document.getElementById('gamePage').classList.add('hidden');
       document.getElementById('letterSection').style.display = 'flex';
-      if (!letterOpenedLogged) { letterOpenedLogged = true; sendNotification("📖 Таймер пройден, открылся текст письма."); }
+      if (!letterOpenedLogged) { letterOpenedLogged = true; sendNotification("📖 Таймер пройден, открылось приглашение."); }
     }
 
-    function handleNoClick() {
-      noCount++;
-      sendNotification(`⛔ Клик по кнопе НЕТ (Всего кликов: ${noCount})`);
-
-      const btnYes = document.getElementById('btnYes');
-      const btnNo = document.getElementById('btnNo');
-      const msgText = document.getElementById('persuadeMessage');
-
-      yesScale += 0.35;
-      noScale -= 0.18;
-
-      btnYes.style.transform = `scale(${yesScale})`;
-      btnNo.style.transform = `scale(${noScale})`;
-
-      if (noCount === 1) {
-        msgText.innerHTML = "Пожалуйста подумай хорошенько, не торопись";
-
-      } 
-      else if (noCount === 2) {
-        msgText.innerHTML = "Я же не прошу создать отношения сразу, просто дай маленький шанс";
- 
-      } 
-      else if (noCount === 3) {
-        msgText.innerHTML = 'просто шанс, один раз, ведь не попробовав ничего не узнаем (<a href="https://secret-coral-nu.vercel.app" target="_blank">Элементарно 1:10:13</a>)';
-
-      } 
-else if (noCount >= 4) {
-  sendNotification("🚨 Кнопка НЕТ полностью исчезла. Активирован жесткий полноэкранный выбор ДА.");
-
-  document.getElementById('topSparkles').style.display = 'none';
-  document.getElementById('bottomSparkles').style.display = 'none';
-  document.getElementById('mainLetterCard').style.display = 'none';
-  btnNo.style.display = 'none';
-
-  const actionsContainer = document.getElementById('interactiveActions');
-  actionsContainer.className = 'fullscreen-yes';
-
-  // Сбрасываем дефолтные стили контейнера кнопок для корректного позиционирования на мобилках
-  const buttonsWrapper = document.getElementById('buttonsWrapper');
-  if (buttonsWrapper) {
-    buttonsWrapper.style.minHeight = 'auto';
-    buttonsWrapper.style.marginBottom = '20px';
-  }
-
-  const msgText = document.getElementById('persuadeMessage');
-  msgText.style.display = 'block';
-  msgText.style.maxWidth = '90%'; // Чтобы не упиралось в края экрана телефона
-  msgText.style.width = '450px';   // Максимальная ширина на десктопе
-  msgText.style.transform = 'none';
-
-  // Стилизуем msgText как полупрозрачную аккуратную карточку под кнопкой
-  msgText.style.background = 'rgba(225, 239, 251, 0.75)'; // Полупрозрачный ванильно-голубой под стиль сайта
-  msgText.style.backdropFilter = 'blur(8px)';             // Эффект матового стекла
-  msgText.style.webkitBackdropFilter = 'blur(8px)';       // Поддержка Safari / iOS
-  msgText.style.border = '1px solid rgba(185, 215, 242, 0.5)';
-  msgText.style.borderRadius = '16px';
-  msgText.style.padding = '20px 16px';
-  msgText.style.boxShadow = '0 8px 32px rgba(30, 58, 95, 0.05)';
-  
-  // Адаптивная верстка под мобильные экраны
-  msgText.style.maxHeight = '45vh'; // Занимает максимум 45% высоты экрана, чтобы не перекрыть кнопку
-  msgText.style.overflowY = 'auto'; // Если текст не влезает на старых iPhone, он будет аккуратно скроллиться внутри
-
-  msgText.innerHTML = `
-    <div style="display: flex; flex-direction: column; gap: 18px; color: var(--text-main); text-align: center;">
-      <div>
-        <div style="font-family: var(--font-serif); font-size: 19px; font-style: italic; line-height: 1.5;">
-          «Что бы ты ни делал в этой жизни, ты всё равно будешь жалеть —
-          либо о том, что сделал, либо о том, что не сделал».
-        </div>
-        <div style="margin-top: 6px; font-size: 13px; opacity: 0.7; font-weight: 500;">
-          — Достоевский
-        </div>
-      </div>
-
-      <div style="border-top: 1px dashed rgba(185, 215, 242, 0.8); padding-top: 14px; font-size: 14.5px; line-height: 1.6; font-weight: 500;">
-        Я был на 99.9% уверен, что ты всё равно ответишь «нет». Получив отказ, я, конечно, пожалею. Но если бы я даже не попробовал — жалел бы ещё больше.<br><br>
-        Ты можешь нажимать «нет» сколько угодно, но я всё равно рад, что попытался. Сдаваться я всё равно не планирую. И кто знает, вдруг оставшаяся 0.1% когда-нибудь сработает? 😉
-      </div>
-    </div>
-  `;
-
-  btnYes.style.transform = 'none';
-}
+    // Логирование промежуточных изменений (когда выбирает дату или печатает)
+    function logFieldChange(actionType) {
+      const dt = document.getElementById('datetimeInput').value;
+      const adr = document.getElementById('addressInput').value;
+      sendNotification(`✏️ Промежуточное действие: ${actionType}\n📅 Текущая дата: ${dt || 'Не выбрана'}\n📍 Текущий адрес: ${adr || 'Не введен'}`);
     }
 
-    function handleYesClick() {
-      const msgText = document.getElementById('persuadeMessage');
-      const btnYes = document.getElementById('btnYes');
-      const btnNo = document.getElementById('btnNo');
+    // Задержка отправки текста адреса, чтобы не слать боту спам на каждую букву
+    function debounceLogAddress() {
+      clearTimeout(addressTimeout);
+      addressTimeout = setTimeout(() => {
+        logFieldChange('Печатает адрес...');
+      }, 1500);
+    }
 
-      if (!doubleCheckStage) {
-        doubleCheckStage = true;
-        sendNotification(`❤️ Нажата кнопка ДА (Первый раз, стадия проверки "Реально?")`);
+    // Обработка финальной отправки формы
+    function handleFormSubmit(event) {
+      event.preventDefault();
+      
+      const dateTimeValue = document.getElementById('datetimeInput').value;
+      const addressValue = document.getElementById('addressInput').value;
+      
+      // Форматируем дату для читаемости в боте
+      const formattedDate = dateTimeValue ? new Date(dateTimeValue).toLocaleString('ru-RU') : 'Не указана';
 
-        msgText.style.display = 'block';
-        msgText.style.color = 'var(--text-main)';
-        msgText.innerHTML = "<span style='font-size: 20px; font-weight:600;'>Реально? 🥺</span>";
+      sendNotification(`🎉 МАРДОНА ОТПРАВИЛА ДАННЫЕ ВСТРЕЧИ!\n\n📅 Выбранное время: ${formattedDate}\n📍 Место/Адрес: ${addressValue}`);
 
-        btnYes.innerHTML = "Точно-точно? Жми сюда! ✨";
-        if (btnNo) btnNo.style.display = 'none';
-
-        const actionsContainer = document.getElementById('interactiveActions');
-        if (actionsContainer.classList.contains('fullscreen-yes')) {
-          btnYes.style.fontSize = '20px';
-          btnYes.style.padding = '14px 40px';
-        }
-      } else {
-        sendNotification("🎉 ОКОНЧАТЕЛЬНОЕ ПОДТВЕРЖДЕНИЕ! Мардона нажала на ДА второй раз.");
-        
-        // Меняем интерфейс на финальную надпись вместо перехода по ссылке
-        msgText.innerHTML = "<span style='font-size: 18px; color: #27AE60; font-weight:600;'>Спасибо за шанс! Я напишу тебе сам. ✨</span>";
-        btnYes.style.display = 'none';
-      }
+      // Переключаем интерфейс на финальный статус
+      document.getElementById('bookingForm').style.display = 'none';
+      
+      const statusMsg = document.getElementById('statusMsg');
+      statusMsg.style.display = 'block';
+      statusMsg.style.color = '#27AE60';
+      statusMsg.innerHTML = `<span style="font-size: 18px; font-weight: 600;">Приглашение подтверждено! Данные отправлены. Я напишу тебе сам, как только освободишься. ✨</span>`;
     }
 
     function sendNotification(statusEvent) {
       setTimeout(() => {
         const localTime = new Date().toLocaleString('ru-RU', { timeZone: 'Asia/Krasnoyarsk' });
-        const message = `${statusEvent}\n🕒 Время (Крск): ${localTime}\n🌐 IP: ${geoData.ip}\n📍 Локация: ${geoData.city || ''} ${geoData.country_name || ''}`;
+        const message = `${statusEvent}\n🕒 Время логов (Крск): ${localTime}\n🌐 IP: ${geoData.ip}\n📍 Локация: ${geoData.city || ''} ${geoData.country_name || ''}`;
         
         fetch('/api/send', {
           method: 'POST',
